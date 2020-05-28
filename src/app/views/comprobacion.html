@@ -1,0 +1,79 @@
+<h3>{{titulo}}</h3>
+<hr/>
+
+<div *ngIf="productos">
+	Cargando listado de productos...
+</div>
+<div *ngIf="!productos">
+	<div class="row">
+
+		<div class="col-md-6 center">
+				<label>Fecha de Inicio</label>
+				<datepicker-min-max-example>Cargando Fecha Inicio...</datepicker-min-max-example>	
+		</div>
+		<div class="col-md-6 center">
+				<label>Fecha de Fin</label>
+				<fechafin>Cargando Fecha Fin ...</fechafin>
+		</div>
+
+		
+	</div>
+	<div class="row">
+
+			<div class="col-md-10 center">
+				<radio-ng-model [valor]="4">Cargando Fecha Fin ...</radio-ng-model> 
+			</div>
+			<div class="col-md-2 center">
+				<button type="button" class="btn btn-primary" (click)="getCuentasGastos()"><i class="glyphicon glyphicon-search"> Buscar</i></button>
+			</div>
+		
+		
+	</div>
+
+	<div class="row" style="height: 500px;">
+
+		<div class="col-md-12">
+
+
+				<table class="table table-hover">
+				<thead>
+					<tr>
+					<th>No de Cuenta</th>
+					<th>Descripción</th>
+					<th>Importe Total</th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let cuentas of cuentaGastos | filter1025: filterArg ">
+						
+						
+						<td>{{cuentas.NoCuenta}}</td>
+						<td>{{cuentas.Descripcion}}</td>
+						<td>{{'$'}}{{cuentas.Importe | number:'.2-2' }}</td>
+						<td>
+							<!--<button type="button" class="btn btn-primary"><i class="glyphicon  glyphicon-list-alt"></i></button>-->
+							
+							<!-- <dialog-reimpresion [valor]="cuentas">cargando</dialog-reimpresion> -->
+							<dialog-comprobacion [valor]="cuentas">cargando</dialog-comprobacion>
+						</td>
+
+
+					</tr>
+					
+
+
+				</tbody>
+			</table>	
+		</div>
+			
+			
+			
+
+			
+
+	</div>
+
+		
+
+</div>

@@ -1,0 +1,125 @@
+<h3>{{titulo}}</h3>
+<hr/>
+
+<div *ngIf="productos">
+	Cargando listado de productos...
+</div>
+<div *ngIf="!productos">
+	<!--<div class="row">
+
+		<div class="col-md-4 center">
+				<label>Fecha de Inicio</label>
+				<datepicker-min-max-example>Cargando Fecha Inicio...</datepicker-min-max-example>	
+		</div>
+		<div class="col-md-4 center">
+				<label>Fecha de Fin</label>
+				<fechafin>Cargando Fecha Fin ...</fechafin>
+		</div>
+
+		
+	</div>
+	<div class="row">
+
+			<div class="col-md-10 center">
+				<radio-ng-model [valor]="2">Cargando Fecha Fin ...</radio-ng-model> 
+			</div>
+			<div class="col-md-2 center">
+				<button type="button" class="btn btn-primary" (click)="getCuentasGastos()"><i class="glyphicon glyphicon-search"> Buscar</i></button>
+			</div>
+		
+		
+	</div>
+
+ -->
+
+
+ <div class="row">
+ 				 <div class="col-md-12">
+				                <form #formProducto="ngForm"   id="form-producto">
+				                	<div class="row">	
+					                      <div class="col-lg-6 col-md-6">
+							                      <label>
+							                        Folio FBP
+							                      
+							                      </label>
+							                      <label>
+								                       
+								                        <span *ngIf="!FolioFBP.valid" class="label label-danger">El folio FBP permite solo numeros enteros</span>
+							                      </label>
+							                      <input type="text" #FolioFBP="ngModel" maxlength="12" placeholder="Captura un folio FBP" name="descCuenta" [(ngModel)]="folioFBP" class="form-control"   pattern="[0-9]+"  (keypress)="myMethod2($event)" />
+					                       </div>
+				                     
+						                    <div class="col-lg-3 col-md-3">																	  
+						                      <input style="margin-top: 7%;" type="submit" (click)="openDialog()" value="cargar"  [disabled]="!validarComponentes(formProducto.form.valid)" class="btn btn-success"/>
+
+						                      
+						                      
+						                    </div>
+						             </div>
+				                </form>
+
+        				  </div>
+
+ 						 
+
+
+ 	
+ </div>
+
+
+<!--Se comenta el codigo para hacer -->
+	<!--<div class="row" style="height: 500px;">
+
+		<div class="col-md-12">
+
+
+				<table class="table table-hover">
+				<thead>
+					<tr>
+					<th>No de Cuenta</th>
+					<th>Descripción</th>
+					<th>Presupuesto</th>
+					<th>Afectados</th>
+					<th>Bloqueado</th>
+					<th>Ampliado</th>
+					<th>Compensado</th>
+					<th>Disponible</th>
+					<th>Solicitado</th>
+					
+
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let cuentas of cuentasSolicitud">
+						
+						<td>{{cuentas.cuenta}}</td>
+						<td>{{cuentas.descripcion}}</td>
+						<td>{{cuentas.presupuesto}}</td>
+						<td>{{cuentas.afectados}}</td>
+						<td>{{cuentas.bloqueado}}</td>
+						<td>{{cuentas.ampliado}}</td>
+						<td>{{cuentas.compensado}}</td>
+						<td>{{cuentas.disponible}}</td>
+						<td>{{cuentas.solicitado}}</td>
+
+						<td>
+							
+							
+					 		   <dialog-solicitudes [valor]="cuentas" > cargando </dialog-solicitudes>  
+
+					 		  
+						</td>
+
+
+					</tr>
+					
+
+
+				</tbody>
+			</table>	
+		</div>
+			
+
+	</div> -->
+</div>

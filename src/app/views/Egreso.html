@@ -1,0 +1,46 @@
+<h3>{{titulo}}</h3>
+
+
+
+<div *ngIf="!productos" class="text-center">
+	
+
+	<div class="row text-center" style="height: 400px;">
+
+		<div class="col-md-12 jumbotron">
+
+				<div class="row" style="margin-left: auto;">
+					<div class="col-md-3 gasolina" (click)="openDialogegreso(4)" >	
+						
+						<div class="carousel-caption"  style="padding-bottom:30px;">
+			      			<h2><strong>Egreso de Gasolina x Empleado</strong></h2>
+			      			
+			    		</div>
+						
+					</div>
+					<!--<div class="col-md-3  cuentas1025" (click)="openDialogegreso(1025)">
+						<div class="carousel-caption"  style="padding-bottom:80px;">
+			      			<h2><strong>Cuenta 1025</strong></h2>
+			      			
+			    		</div>
+					</div> -->
+
+					<div class="col-md-3 cifra" (click)="openDialogegreso(3)">
+						<div class="carousel-caption"  style="padding-bottom:30px;">
+			      			<h2><strong>Pago de Cifra Control</strong></h2>
+			      			
+			    		</div>
+					</div>
+
+				</div>
+
+				
+		</div>
+			
+			
+			
+
+			
+
+	</div>
+</div>

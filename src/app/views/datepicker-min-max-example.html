@@ -1,0 +1,11 @@
+<mat-form-field class="example-full-width">
+  <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="pickerInicio" [(ngModel)]="fechaInicio" (ngModelChange)="obtieneValor()"  placeholder="Fecha de Inicio" disabled>
+  <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+  <mat-datepicker #pickerInicio disabled="false"></mat-datepicker>
+</mat-form-field>
+
+
+
+<!-- Copyright 2017 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

@@ -1,0 +1,124 @@
+
+<div class="row">
+   <div class="col-md-10">
+        <h1 mat-dialog-title>Detalle del Reporte de Gastos</h1>
+   </div>
+   <div class="col-md-2">
+          <button  mat-dialog-close tabindex="-1" type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+          </button>
+   </div>
+</div>
+
+
+<hr/>
+
+    <div class="row">
+        <div class="col-md-8">
+            <label><strong>No de Cuenta: {{data.carga.NoCuenta>0?data.carga.NoCuenta:''}}</strong> 
+                    <span>{{data.carga.Descripcion}}</span> 
+
+                    
+            </label>
+
+        </div>
+        <div class="col-md-4">
+               <label  *ngIf="data.carga.detHistoricoSolicitudes.length>0"><strong>Estatus:  {{data.carga.detHistoricoSolicitudes[0].idEstado ==0?'Pendiente de Autorizar':
+                                           data.carga.detHistoricoSolicitudes[0].idEstado ==1?'Autorizado': 
+                                           data.carga.detHistoricoSolicitudes[0].idEstado ==2?'Rechazado':
+                                           data.carga.detHistoricoSolicitudes[0].idEstado ==4?'Afectado'
+                                           :'Sin descripción'
+                                         }} </strong></label>
+               <label  *ngIf="data.carga.detHistoricoSolicitudes.length==0">
+                    <strong>Estatus:  {{'Comprobado'}} </strong>
+              </label>
+              
+        </div>
+
+    <div>
+
+<hr/>
+
+
+<div mat-dialog-content>
+
+
+
+
+<div class="row" style="height: 400px;">
+
+    <div class="col-md-12">
+
+       
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                  <th>FolioAdn     </th>
+                  <th>FolioSAP        </th>
+                  <th>NoCuenta        </th>
+                  <th>ImporteGasto    </th>
+                  <th>DescTipoGasto   </th>
+                  <th>IdTipo          </th>
+                  <th>Fecha           </th>
+                  <th>Descripción     </th>
+                  <th>Referencia      </th>
+                  <th>Justificación   </th>    
+                  <th>Observaciones   </th> 
+                <!--   <th>Empleado        </th> -->          
+                 </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cuentas of data.cuentaGastos"  >  <!--ReporteGastos -->
+               
+               <td [style.backgroundColor] = "cuentas.Existe ? '#faf2cc' : 'white'">
+               <!-- {{cuentas.FolioAdn}} -->
+                <div *ngIf="!cuentas.Existe">{{cuentas.FolioAdn}}</div>
+                <div *ngIf="cuentas.Existe"> <span matTooltip="{{cargarEstilo(cuentas.Existe)}}">{{cuentas.FolioAdn}} </span></div>
+                   
+                    
+              </td>  
+               <td [style.backgroundColor] = "cuentas.Existe ? '#faf2cc' : 'white'">{{cuentas.FolioSAP }} </td>
+               <td [style.backgroundColor] = "cuentas.Existe ? '#faf2cc' : 'white'">{{cuentas.NoCuenta>0?cuentas.NoCuenta:'' }} </td>
+               <td [style.backgroundColor] = "cuentas.Existe ? '#faf2cc' : 'white'"> {{data.datosGenerales.SignoMoneda}} {{cuentas.ImporteGasto | number:'.2-2'}} </td>
+               <td [style.backgroundColor] = "cuentas.Existe ? '#faf2cc' : 'white'">{{cuentas.DescTipoGasto      }} </td>
+               <td [style.backgroundColor] = "cuentas.Existe ? '#faf2cc' : 'white'">{{cuentas.IdTipo             }} </td>
+               <td [style.backgroundColor] = "cuentas.Existe ? '#faf2cc' : 'white'">{{cuentas.Fecha              }} </td>
+               <td [style.backgroundColor] = "cuentas.Existe ? '#faf2cc' : 'white'">{{cuentas.Descripcion        }} </td>
+               <td [style.backgroundColor] = "cuentas.Existe ? '#faf2cc' : 'white'">{{cuentas.Referencia         }} </td>
+               <td [style.backgroundColor] = "cuentas.Existe ? '#faf2cc' : 'white'">{{cuentas.Justificacion      }} </td>
+               <td [style.backgroundColor] = "cuentas.Existe ? '#faf2cc' : 'white'">{{cuentas.Observaciones      }} </td>
+               <!--    <td>{{cuentas.Empleado           }} </td> -->
+               <!--  <td>
+                  <button type="button" class="btn btn-primary"><i class="glyphicon  glyphicon-list-alt"></i></button>
+                  <dialog-data-example [valor]="cuentas">cargando</dialog-data-example> 
+                </td> -->
+
+              </tr>
+              
+            </tbody>
+        </table>  
+    </div>
+  
+</div>
+
+<hr/>
+
+</div>
+
+<div class="row" >
+  <!--  <div class="col-md-12">
+          <mat-dialog-actions>
+            <button mat-button [mat-dialog-close]="true" tabindex="1">Imprimir Reporte </button>
+            <button mat-button mat-dialog-close tabindex="-1">Cancel</button>
+          </mat-dialog-actions>
+    </div>
+-->
+
+
+</div>
+
+<hr/>
+
+<!-- Copyright 2017 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

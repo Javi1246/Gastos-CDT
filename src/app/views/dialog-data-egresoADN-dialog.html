@@ -1,0 +1,203 @@
+<div>
+
+    <div class="row" *ngIf="cabecero">
+        <div class="col-md-10">
+            <h1 mat-dialog-title>{{titulo}}</h1>
+        </div>
+        <div class="col-md-2">
+            <button mat-dialog-close tabindex="-1" type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    </div>
+
+
+
+    <div mat-dialog-content>
+
+        <div class="row" *ngIf="!pantalla">
+
+            <div class="col-md-12">
+                <form #formProducto="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12 col-md-12" id="form-producto">
+
+                    <label>
+                        Cuenta
+                        
+                      </label>
+                    <input type="text" #descCuenta="ngModel" name="descCuenta" [(ngModel)]="desc" class="form-control" disabled="true" />
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>
+                                  Importe                       
+                                 <!--  <span *ngIf="!validaImporte(importe.valid) " class="label label-danger">El importe no es correcto</span> -->
+                                </label>
+                            <input type="text" #importe="ngModel" name="importe" [(ngModel)]="importe2" (change)="cambiarEstatusFactura();" class="form-control" pattern="" placeholder="Agregar un importe" disabled="true" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>
+                                  IVA                       
+                                 <!--  <span *ngIf="!validaImporte(importeImpuesto.valid) " class="label label-danger">El IVA no es correcto</span> -->
+                                </label>
+                            <input type="text" #importeImpuesto="ngModel" name="importeImpuesto" [(ngModel)]="iva2" (change)="cambiarEstatusFactura();" class="form-control" pattern="" placeholder="Agregar un importe" disabled="true" />
+                        </div>
+                    </div>
+
+
+                    <label>
+                        {{'Referencia'}}
+                       <!-- <span *ngIf="!validaFactura(factura.valid)" class="label label-danger">La factura no es correcto</span> -->
+                      </label>
+
+
+                    <input type="text" #factura="ngModel" name="factura" (change)="cambiarEstatusFactura();" [(ngModel)]="cajaDetalleFolios.Referencia" class="form-control" placeholder="Agregar No. de facttura" disabled />
+
+
+
+
+
+
+                    <label>
+                        Justificación de Gasto
+                        <span *ngIf="!justificacion.valid && justificacion.touched" class="label label-danger">La justificacion es obligatoria</span>
+                      </label>
+                    <input type="text" #justificacion="ngModel" name="justificacion" [(ngModel)]="cajaDetalleFolios.Justificacion" class="form-control" placeholder="Justificación" disabled />
+
+
+
+
+
+
+                    <br/>
+
+
+                    <input type="submit" value="Egresar" (click)="MovimientoGastos(); " class="btn btn-success" [disabled]="cliked" />
+
+                </form>
+
+            </div>
+
+
+        </div>
+
+        <div *ngIf="pantalla">
+
+            <!--Modal para  mostrar mensaje -->
+            <div class="row text-center" *ngIf="!PantallaImprimir">
+
+                <div class="col-md-12">
+                    <label>
+                            <strong>{{mensaje}} </strong>
+                          </label>
+
+                    <div *ngIf="vermas">
+                        <a *ngIf="!vermasme" (click)="ver(1);">ver más</a>
+                        <div *ngIf="vermasme">
+                            <a (click)="ver(0)">ocultar</a>
+                            <br/>
+                            <label>
+                                        <strong>{{mensaje2}} </strong>
+                                    </label>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <br/>
+                <br/>
+                <br/>
+                <div class="col-md-12" *ngIf="boton">
+                    <button mat-dialog-close tabindex="-1" type="button" class="btn btn-primary">
+                                <i class="glyphicon glyphicon-ok"> Aceptar </i></button>
+                </div>
+
+                <div class="col-md-12" *ngIf="!boton">
+                    <div *ngIf="!retornar">
+                        <button mat-dialog-close tabindex="-1" type="button" class="btn btn-danger"><i > Rechazar </i></button>
+
+                        <button type="button" class="btn btn-primary" (click)="insertaSolicitudGastos();"><i > Continuar </i></button>
+
+                    </div>
+
+
+                    <div *ngIf="retornar">
+
+
+
+                        <button *ngIf="siniestro" mat-dialog-close tabindex="-1" type="button" class="btn btn-danger"><i > Rechazar </i></button>
+                        <button type="button" class="btn btn-primary" (click)="mostarCarga();"><i > Aceptar </i></button>
+
+                    </div>
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="row text-center" *ngIf="PantallaImprimir">
+
+                <div class="col-md-12" *ngIf="imprimirCorrectamente">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="height:400px;">
+                                <img [src]="'data:image/jpg;base64,'+bse64" width="100%">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 center">
+                            <br/>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-md-12 center">
+                                    <label><strong>¿La impresión salio correcta?</strong></label>
+                                </div>
+                            </div>
+
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-md-6 center">
+                                    <button type="button" class="btn btn-primary" (click)="imprimirEgreso(cuentas);"><i > Reimprimir</i></button>
+                                </div>
+                                <div class="col-md-6 center">
+                                    <button mat-dialog-close tabindex="-1" type="button" class="btn btn-primary"><i > Aceptar</i></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div *ngIf="!imprimirCorrectamente" style="width: 140px;">
+
+                    <mat-spinner></mat-spinner>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+

@@ -1,0 +1,226 @@
+<div>
+
+    <div class="row" *ngIf="cabecero">
+        <div class="col-md-10">
+            <h1 mat-dialog-title>{{titulo}}</h1>
+        </div>
+        <div class="col-md-2">
+            <button mat-dialog-close tabindex="-1" type="button" class="close" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                  </button>
+        </div>
+    </div>
+
+
+
+    <div mat-dialog-content>
+
+        <div class="row" *ngIf="!pantalla">
+
+            <div class="col-md-12">
+                <form #formProducto="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12 col-md-12" id="form-producto">
+
+                    <label>
+                        Cuenta
+                        
+                      </label>
+                    <input type="text" #descCuenta="ngModel" name="descCuenta" [(ngModel)]="egresos.descCuenta" class="form-control" disabled="true" />
+
+                    <label>
+                        Importe
+                        
+                     <!--   <span *ngIf="!validaImporte(importe.valid) " class="label label-danger">No se permiten caracteres,espacios en blanco y solo decimales a 2 digitos</span>   -->
+
+                         <span *ngIf="!importe.valid && importe.touched" class="label label-danger">No se permiten caracteres,espacios en blanco y solo decimales a 2 digitos</span>
+                      </label>
+
+
+                    <input type="text" #importe="ngModel" id="importes" maxlength="8" name="importe" [(ngModel)]="egresos.importe" class="form-control" pattern="(^[0-9]{1,5}|^[0-9]{1,5}.[0-9]{0,2})" placeholder="Agregar un importe" (keypress)="myMethod($event)" (change)="cambiarEstatusFactura();"
+                        [disabled]="habilitarComponenetes" />
+
+                    <label>
+                        {{descrip}}
+                     <!--   <span *ngIf="!validaFactura(factura.valid)" class="label label-danger">No se permiten caracteres especiales y espacios en blanco</span> -->
+                       <span *ngIf="!factura.valid && factura.touched" class="label label-danger">No se permiten caracteres especiales,espacios en blanco y letras</span>
+                      </label>
+
+
+                    <input type="text" #factura="ngModel" maxlength="10" name="factura" (change)="cambiarEstatusFactura();" [(ngModel)]="egresos.factura" class="form-control facturas" placeholder="Agregar {{descrip}}" pattern="^[a-zA-Z0-9]{1,10}" (keypress)="myMethod2($event)"
+                        [disabled]="habilitarComponenetes" />
+
+
+
+
+                    <div *ngIf="mostrarFactura">
+                        <label>XML</label>
+                        <input type="file" class="form-control" (change)="fileChangeEvent($event);" accept='text/xml' />
+
+                        <div *ngIf="detalleFactura" class="alert alert-success">{{valorFactura}}</div>
+                    </div>
+
+                    <div *ngIf="!mostrarFactura && descrip ==='Factura' && egresos.importe  > 0" class="text-center">
+                        <!-- Se muestra para la carga del monto con IVA-->
+                        <label><strong>¿El gasto tiene {{data.datosGenerales.Impuesto}}?</strong></label>
+
+                        <div class="row ">
+                            <form #formImpuesto="ngForm" id="form-Impuesto">
+
+                                <input type="radio" (change)="calculoImpuesto(true)" [value]="true" [checked]="contieneIVA === true"> SI
+                                <label>     </label>
+                                <input type="radio" (change)="calculoImpuesto(false)" [value]="false" [checked]="contieneIVA === false"> No
+
+
+                            </form>
+
+                        </div>
+
+                        <div class="row " *ngIf="data.datosGenerales.esfrontera && contieneIVA">
+                            <form #formImpuesto="ngForm" id="form-IVA">
+                                <div class="col-md-12">
+                                    <label class=" col-form-label">I.V.A</label>
+                                    <select class="form-control pais" #pais name="pais" id="pais" [(ngModel)]="selectIva" (change)="calculoImpuesto(true)" placeholder="Selecciona Iva">
+                                                     <option  value="" selected="selected">Selecciona IVA</option> 
+                                                    <option *ngFor="let ivas of detIva;"  [value]="ivas" >{{ ivas.trim() === '0.08'?'Iva Fronterizo ('+ivas*100+'%)':ivas.trim()==='0.16'?'Iva al '+ivas*100+'%':'Sin Iva' }}
+                                                    </option>
+                                          </select>
+                                </div>
+                            </form>
+
+                        </div>
+
+
+
+                        <div *ngIf="detalleFactura" class="alert alert-success">{{valorFactura}}</div>
+                    </div>
+
+                    <label>
+                        Justificacion
+                        <span *ngIf="!justificacion.valid && justificacion.touched" class="label label-danger">No se permiten caracteres especiales</span>
+                      </label>
+                    <input type="text" #justificacion="ngModel" id="jus" maxlength="50" name="justificacion" [(ngModel)]="egresos.justificacion" class="form-control" placeholder="Justificación" required="requiredValidacionJust" pattern="^[a-zA-Z0-9 ñÑ,/áÁÉéíÍóÓÚú]{1,50}"
+                    />
+
+                    <div *ngIf="egresos.noCuenta==604910 || egresos.noCuenta==60491 || egresos.noCuenta==1025">
+                        <label>
+                                Concepto de Gastos
+                                <!-- <span *ngIf="!conceptoGastos.valid && conceptoGastos.touched" class="label label-danger">Se carga</span> -->
+                          </label>
+                        <input type="text" #Concepto="ngModel" name="concepto" [(ngModel)]="egresos.concepto" class="form-control" placeholder="Concepto" required="requiredValidacionJust" />
+                    </div>
+
+
+
+
+                    <br/>
+
+
+                    <input type="submit" value="{{titulo}}" (click)="validarSolicitudGastos();" [disabled]="!validarComponentes(formProducto.form.valid)" class="btn btn-success" />
+
+                </form>
+
+            </div>
+
+
+        </div>
+
+        <div *ngIf="pantalla">
+
+            <!--Modal para  mostrar mensaje -->
+            <div class="row text-center" *ngIf="!PantallaImprimir">
+
+                <div class="col-md-12">
+                    <label>
+                            <strong>{{mensaje}} </strong>
+                          </label>
+                </div>
+
+
+                <br/>
+                <br/>
+                <br/>
+                <div class="col-md-12" *ngIf="boton">
+                    <button mat-dialog-close tabindex="-1" type="button" class="btn btn-primary">
+                                <i class="glyphicon glyphicon-ok"> Aceptar </i></button>
+                </div>
+
+                <div class="col-md-12" *ngIf="!boton">
+                    <div *ngIf="!retornar">
+                        <button mat-dialog-close tabindex="-1" type="button" class="btn btn-danger"><i > Rechazar </i></button>
+
+                        <button type="button" class="btn btn-primary" (click)="insertaSolicitudGastos();"><i > Continuar </i></button>
+
+                    </div>
+
+
+                    <div *ngIf="retornar">
+
+                        <button *ngIf="siniestro" mat-dialog-close tabindex="-1" type="button" class="btn btn-danger"><i > Rechazar </i></button>
+                        <button type="button" class="btn btn-primary" (click)="mostarCarga();"><i > Aceptar </i></button>
+
+                    </div>
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="row text-center" *ngIf="PantallaImprimir">
+
+                <div class="col-md-12" *ngIf="imprimirCorrectamente">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="height:500px;">
+                                <img [src]="'data:image/jpg;base64,'+bse64" width="100%">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 center">
+                            <br/>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-md-12 center">
+                                    <label><strong>¿La impresión salio correcta?</strong></label>
+                                </div>
+                            </div>
+
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-md-6 center">
+                                    <button type="button" class="btn btn-primary" (click)="imprimirEgreso(cuentas);"><i > Reimprimir</i></button>
+                                </div>
+                                <div class="col-md-6 center">
+                                    <button mat-dialog-close tabindex="-1" type="button" class="btn btn-primary"><i > Aceptar</i></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div *ngIf="!imprimirCorrectamente">
+
+                    <mat-spinner></mat-spinner>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+</div>

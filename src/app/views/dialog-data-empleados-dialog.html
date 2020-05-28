@@ -1,0 +1,159 @@
+<!--<h1 mat-dialog-title>{{titulo}}</h1> -->
+
+
+
+
+<div class="row"  *ngIf="cabecero">
+   <div class="col-md-10">
+        <h1 mat-dialog-title>{{titulo}} </h1>        
+   </div>
+   <div class="col-md-2">
+         <!-- <button  mat-dialog-close tabindex="-1" type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+          </button> -->
+   </div>
+</div>  
+
+
+
+<div mat-dialog-content style="overflow: hidden;">
+
+ <div class="row" *ngIf="!pantalla">
+       
+
+          <div class="col-md-12">
+                <form #formProducto="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12 col-md-12" id="form-producto">
+
+                 <!-- <h1>Detalle de Autorización</h1> -->
+
+                      <label>
+                        No de Empleado
+                      
+                      </label>
+                      <input type="text" #descCuenta="ngModel" name="descCuenta" [(ngModel)]="empleadoHuella.NoEmpleado" class="form-control"   disabled="true" />
+
+                      <label>
+                        Nombre de Empleado
+                                        
+                      </label>                      
+                       
+                            <input type="text" #importe="ngModel" name="importe" [(ngModel)]="empleadoHuella.Nombre" class="form-control"     placeholder="Agregar un importe" disabled="true"  />
+                      
+                     
+                       
+                        <br/>
+
+                         <div class="row" style="text-align: center;">
+                              <div class="col-md-4" style="text-align: center;"><button type="submit" class="btn btn-success" disabled="false">Consulta</button></div>
+                              <div class="col-md-4" style="text-align: center;"><button  (click)="redirectHome();" type="button"  mat-dialog-close tabindex="-1" aria-label="Close" class="btn btn-danger">Salir </button> </div>
+
+                              <div class="col-md-4" >
+                                  <button  type="button" id="MetodoClick"  class="btn btn-primary" onclick="JSSetUpdate();"><i > JSSetUpdate</i></button> 
+                             </div>
+
+                         </div>
+                       
+                </form>
+
+          </div>
+
+
+</div>
+
+ <div class="row text-center" *ngIf="pantalla">
+
+
+          <div *ngIf="!MessageError">
+                <div class="row" *ngIf="imprimirCorrectamente">
+                      <div class="col-md-6">
+                          <div style="height:400px;">
+                                <img  [src]="'data:image/jpg;base64,'+bse64"  width="100%" >
+                          </div>
+                      </div>
+
+                    <div class="col-md-6 center">
+                       <br/>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-12 center">
+                              <label><strong>¿La impresión salio correcta?</strong></label>
+                            </div>
+                        </div>
+                        <br/>
+                          <div class="row">
+                            <div class="col-md-6 center">
+                              <button type="button" class="btn btn-primary" (click)="imprimirEgreso(cuentas);" ><i > Reimprimir</i></button> 
+                            </div>
+                            <div class="col-md-6 center">
+                              <button   mat-dialog-close tabindex="-1" type="button" class="btn btn-primary" (click)="redirect();"><i > Aceptar</i></button> 
+                            </div>
+
+                             
+                        </div>
+                           
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="!imprimirCorrectamente" style="height:80px;width: 130px;">
+                        <mat-spinner></mat-spinner>
+                </div>
+          </div>
+          
+
+            <div *ngIf="MessageError">
+                 <div class="col-md-12">
+                       <label><strong>{{mensaje}} </strong></label>
+                 </div>
+
+             
+                <br/>
+                <br/>
+                <br/>
+                 <div class="col-md-12" *ngIf="boton">
+                        <button mat-button [mat-dialog-close]="data.consulta" type="button" class="btn btn-primary" ><i > Aceptar</i></button> 
+                 </div>
+
+                  <div class="col-md-12" *ngIf="!boton">
+                        <button   mat-dialog-close tabindex="-1" type="button" class="btn btn-primary" (click)="mostarCarga();"><i >Aceptar</i></button> 
+                 </div>
+
+                   
+
+            </div>
+        </div>
+
+<div class="row" >
+   <!--  <div class="col-md-12">
+          <mat-dialog-actions>
+            <button mat-button [mat-dialog-close]="true" tabindex="1">Imprimir Reporte </button>
+            <button mat-button mat-dialog-close tabindex="-1">Cancel</button>
+          </mat-dialog-actions>
+    </div> -->
+
+
+
+</div>
+
+<hr/>
+
+<!-- Copyright 2017 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
+
+
+<!-- Metodo para la validaacion de la huella -->
+
+    <div style="display: none;" >
+        <button id="respHuella" type="button" class="btn btn-primary" (click)="JSSetUpdate2();"></button>
+    </div>
+
+     <div style="display: none;" >  
+        <button id="respHuellaError" type="button" class="btn btn-primary" (click)="JSSetUpdateError();"></button>
+    </div>
+
+      <div style="display: none;" >  
+        <button id="respHuellaError2" type="button" class="btn btn-primary" (click)="JSSetUpdateError2();"></button>
+    </div>
+
+
+    

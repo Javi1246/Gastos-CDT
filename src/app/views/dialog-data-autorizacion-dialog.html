@@ -1,0 +1,167 @@
+<!--<h1 mat-dialog-title>{{titulo}}</h1> -->
+
+
+
+<div class="row" *ngIf="ocultarTitulo">
+   <div class="col-md-10" >
+        <h1 mat-dialog-title></h1>
+   </div>
+   <div class="col-md-2">
+          <button  mat-dialog-close tabindex="-1" type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+          </button>
+   </div>
+   <hr/>
+</div>
+   
+
+
+
+
+<div mat-dialog-content style="overflow: hidden;">
+
+ <div class="row" *ngIf="!pantalla">
+       
+
+          <div class="col-md-12">
+                <form #formProducto="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12 col-md-12" id="form-producto">
+
+                   <h1>Detalle de Solicitud</h1> 
+
+                      <label>
+                        Cuenta
+                        <!-- 
+                             this.habilitarComponenetes=data.requiere.requiereXML===1?false:data.requiere.requiereXML===2?true:false;
+                             this.requiredValidacion=data.requiere.requiereXML===1?true:data.requiere.requiereXML===2?false:false;
+                        -->
+                        <!--&& cuenta.touched *ngIf="!descCuenta.valid "-->
+                       <!-- <span  class="label label-danger">La cuenta es obligatoria</span> -->
+                      </label>
+                      <input type="text" #descCuenta="ngModel" name="descCuenta" [(ngModel)]="detAutizacionSolicitud.Cuenta +' ' + detAutizacionSolicitud.DescripCuenta " class="form-control" disabled="true" />
+
+                      <label>
+                        Importe
+                        <!--&& && importe.touched -->
+                        
+                      </label>
+                      
+                       <!--  <input type="text" #importe="ngModel" name="importe" [(ngModel)]="egresos.importe" class="form-control" required  pattern="[0-9]\d{0,2}+" placeholder="0.00"/>-->
+                      <!-- {{data.requiere.requiereXML}}
+                       {{requiredValidacion}}
+                       {{habilitarComponenetes}} -->    
+                     
+
+                            <input type="text" #importe="ngModel" name="importe" [(ngModel)]="datosGenerales.SignoMoneda.trim() + ''+ importe2 " class="form-control" placeholder="Agregar un importe" disabled="true"  />
+                      
+                      <label>
+                        <!-- {{detAutizacionSolicitud.descTitulo}} -->
+                        
+                        {{'Observación'}}
+                      </label>
+
+                        
+                              <input type="text" #factura="ngModel" name="factura" [(ngModel)]="detAutizacionSolicitud.Observaciones" class="form-control" placeholder="Agregar No. de facttura"  disabled="true"
+                                 />  
+                        
+                        
+
+                      <label>
+                        Justificación
+                        
+                      </label>
+                      <input type="text" #justificacion="ngModel" name="justificacion" [(ngModel)]="detAutizacionSolicitud.Jestado" class="form-control" placeholder="Justificación" disabled="true" />
+
+                     
+
+                      <br/>
+                     <!--  {{habilitarAgregar}}  ->
+                     
+                     <!--  <input type="submit" value="{{titulo}}" (click)="insertaSolicitudGastos();" [disabled]="!formProducto.form.valid && !habilitarAgregar" class="btn btn-success"/>-->
+                        <input *ngIf="detAutizacionSolicitud.TdaEstado==='0'" type="submit" value="{{titulo}}" (click)="insertaSolicitudGastos();"  class="btn btn-success"/>
+                        <input *ngIf="detAutizacionSolicitud.TdaEstado==='3' " type="submit" value="{{'Reimprimir'}}" (click)="reimpresionSolicitudGastos();"  class="btn btn-success"/>
+                        <input *ngIf="detAutizacionSolicitud.TdaEstado===''" type="submit" value="{{titulo}}" (click)="insertaSolicitudGastos();"  class="btn btn-success"/>
+                       
+                </form>
+
+          </div>
+
+
+</div>
+
+ <div class="row text-center"  *ngIf="pantalla">
+
+
+          <div *ngIf="!MessageError" >
+                <div class="row" *ngIf="imprimirCorrectamente">
+                      <div class="col-md-6">
+                          <div style="height:400px;">
+                                <img  [src]="'data:image/jpg;base64,'+bse64"  width="100%" >
+                          </div>
+                      </div>
+
+                    <div class="col-md-6 center">
+                       <br/>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-12 center">
+                              <label><strong>¿La impresión salio correcta?</strong></label>
+                            </div>
+                        </div>
+                        <br/>
+                          <div class="row">
+                            <div class="col-md-6 center">
+                              <button type="button" class="btn btn-primary" (click)="imprimirEgreso(cuentas);" ><i class="glyphicon  glyphicon glyphicon-print"> Reimprimir</i></button> 
+                            </div>
+                            <div class="col-md-6 center">
+                              <button   mat-dialog-close tabindex="-1" type="button" class="btn btn-primary" (click)="redirect();"><i class="glyphicon  glyphicon glyphicon glyphicon-ok"> Aceptar</i></button> 
+                            </div>
+
+                        </div>
+                           
+                    </div>
+                </div>
+
+                <div class="row text-center" style="margin:auto;" *ngIf="!imprimirCorrectamente" >
+                      <div style="height:65px;width: 116px;margin-left:auto;">
+                        <mat-spinner></mat-spinner>
+                      </div>
+                </div>
+          </div>
+          
+
+            <div *ngIf="MessageError">
+                 <div class="col-md-12">
+                       <label><strong>{{mensaje}} </strong></label>
+                 </div>
+
+             
+                <br/>
+                <br/>
+                <br/>
+                 <div class="col-md-12" *ngIf="boton">
+                        <button mat-dialog-close tabindex="-1" (click)="redirect();" type="button" class="btn btn-primary" ><i class="glyphicon  glyphicon glyphicon glyphicon-ok"> Aceptar</i></button> 
+                 </div>
+
+                  <div class="col-md-12" *ngIf="!boton">
+                        <button   mat-dialog-close tabindex="-1" type="button" class="btn btn-primary" (click)="mostarCarga();"><i class="glyphicon  glyphicon glyphicon glyphicon-ok"> Aceptar</i></button> 
+                 </div>
+            </div>
+        </div>
+
+<div class="row" >
+   <!--  <div class="col-md-12">
+          <mat-dialog-actions>
+            <button mat-button [mat-dialog-close]="true" tabindex="1">Imprimir Reporte </button>
+            <button mat-button mat-dialog-close tabindex="-1">Cancel</button>
+          </mat-dialog-actions>
+    </div> -->
+
+
+
+</div>
+
+<hr/>
+
+<!-- Copyright 2017 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

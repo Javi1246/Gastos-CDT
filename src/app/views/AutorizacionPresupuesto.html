@@ -1,0 +1,184 @@
+<h3>{{titulo}}</h3>
+<hr/>
+
+<div *ngIf="productos">
+	Cargando listado de productos...
+</div>
+<div *ngIf="!productos">
+	<!--<div class="row">
+
+		<div class="col-md-4 center">
+				<label>Fecha de Inicio</label>
+				<datepicker-min-max-example>Cargando Fecha Inicio...</datepicker-min-max-example>	
+		</div>
+		<div class="col-md-4 center">
+				<label>Fecha de Fin</label>
+				<fechafin>Cargando Fecha Fin ...</fechafin>
+		</div>
+
+		
+	</div>
+	<div class="row">
+
+			<div class="col-md-10 center">
+				<radio-ng-model [valor]="2">Cargando Fecha Fin ...</radio-ng-model> 
+			</div>
+			<div class="col-md-2 center">
+				<button type="button" class="btn btn-primary" (click)="getCuentasGastos()"><i class="glyphicon glyphicon-search"> Buscar</i></button>
+			</div>
+		
+		
+	</div>
+
+ -->
+
+
+	<div class="row" style="height: 300px;overflow: scroll">
+
+		<div class="col-md-12" style="height: 350px">
+
+
+				<table class="table table-hover">
+				<thead>
+					<tr>
+					    <th>SELECCIONAR</th>
+						<th>FOLIO ADN</th>
+						<th>FOLIO</th>
+						<th>CUENTA</th>
+						<th>DESC. CUENTA</th>
+						<th>IMPORTE</th>
+						<th>FECHA</th>
+						<th>ESTADO</th>
+						<th>DESC. SOLICITUD</th>
+						<th>JESTADO</th>
+						<th>OBSERVACIONES</th>
+						<th>EMPLEADO</th>
+						<th>NUMPROYECTO</th>
+						<th>DESCRIPCION PROY</th>									
+					</tr>
+				</thead>
+				<tbody>
+
+					<!-- | filterAutorizacion: cuentas.TdaEstado  -->
+					<tr *ngFor="let cuentas of detSolicitudAut | filterAutorizacion: filterArg ">
+						
+						<td>
+							<!--<button type="button" class="btn btn-primary"><i class="glyphicon  glyphicon-list-alt"></i></button>-->
+							
+					 		   <dialog-autorizacionsolicitudes [valor]="cuentas"> cargando </dialog-autorizacionsolicitudes>  
+
+					 		   <!--<dialog-data-example [valor]="cuentas">cargando</dialog-data-example> -->
+						</td>
+						<td>{{cuentas.FolioADN}}</td>
+						<td>{{cuentas.Folio}}</td>
+						<td>{{cuentas.Cuenta}}</td>
+						<td>{{cuentas.DescripCuenta}}</td>
+						<td>{{datosGenerales.SignoMoneda}}{{cuentas.Importe | number:'.2-2'}}</td>
+						<td>{{cuentas.Fecha}}</td>
+						<td>{{cuentas.Estado}}</td>
+						<td>{{cuentas.DescripSolicitud}}</td>
+						<td>{{cuentas.Jestado}}</td>
+						<td>{{cuentas.Observaciones}}</td>
+						<td>{{cuentas.Empleado}}</td>
+						<td>{{cuentas.NumProyecto}}</td>
+						<td>{{cuentas.DescripProyecto}}</td>
+						
+
+					<!--	<td>
+						-
+							
+					 		   <dialog-autorizacionsolicitudes [valor]="cuentas" > cargando </dialog-autorizacionsolicitudes>  
+
+					 		   
+						</td> -->
+
+
+					</tr>
+					
+
+
+				</tbody>
+			</table>	
+		</div>
+
+
+
+				
+	</div>
+<h3>Folios no registrados en tienda</h3>
+	<div class="row" style="height: 300px;overflow: scroll">
+		
+			<div class="col-md-12" style="height: 350px">
+
+				
+
+
+				<table class="table table-hover">
+				<thead>
+					<tr>
+				    <th>SELECCIONAR</th>
+					<th>FOLIO ADN</th>
+					<th>FOLIO</th>
+					<th>CUENTA</th>
+					<th>DESC. CUENTA</th>
+					<th>IMPORTE</th>
+					<th>FECHA</th>
+					<th>ESTADO</th>
+					<th>DESC. SOLICITUD</th>
+					<th>JESTADO</th>
+
+					<th>OBSERVACIONES</th>
+					<th>EMPLEADO</th>
+					<th>NUMPROYECTO</th>
+					<th>DESCRIPCION PROY</th>
+					
+
+					
+				</tr>
+				</thead>
+				<tbody>
+
+					<!-- | filterAutorizacion: cuentas.TdaEstado  -->
+					<tr *ngFor="let cuentas of detSolicitudAutNO |filterAutorizacionNo: filterArgNo">
+						
+						<td>
+							<!--<button type="button" class="btn btn-primary"><i class="glyphicon  glyphicon-list-alt"></i></button>-->
+							
+					 		   <dialog-autorizacionsolicitudes [valor]="cuentas" > cargando </dialog-autorizacionsolicitudes>    
+
+					 		   <!--<dialog-data-example [valor]="cuentas">cargando</dialog-data-example> -->
+						</td>
+						<td>{{cuentas.FolioADN}}</td>
+						<td>{{cuentas.Folio}}</td>
+						<td>{{cuentas.Cuenta}}</td>
+						<td>{{cuentas.DescripCuenta}}</td>
+						<td>{{datosGenerales.SignoMoneda}}{{cuentas.Importe | number:'.2-2'}}</td>
+						<td>{{cuentas.Fecha}}</td>
+						<td>{{cuentas.Estado}}</td>
+						<td>{{cuentas.DescripSolicitud}}</td>
+						<td>{{cuentas.Jestado}}</td>
+
+						<td>{{cuentas.Observaciones}}</td>
+						<td>{{cuentas.Empleado}}</td>
+						<td>{{cuentas.NumProyecto}}</td>
+						<td>{{cuentas.DescripProyecto}}</td>
+						<td>{{cuentas.TdaEstado}}</td>
+
+					<!--	<td>
+						-
+							
+					 		   <dialog-autorizacionsolicitudes [valor]="cuentas" > cargando </dialog-autorizacionsolicitudes>  
+
+					 		   
+						</td> -->
+
+
+					</tr>
+					
+
+
+				</tbody>
+			</table>	
+		</div>		
+	</div>
+</div>

@@ -1,0 +1,29 @@
+
+<div class="center" style="text-align: center;">
+<h1 mat-dialog-title>{{data.mensaje.titulo}}</h1>
+
+
+
+<div mat-dialog-content>
+  <strong>{{data.mensaje.comentario}}</strong>
+ <!-- <mat-form-field>
+    <input matInput tabindex="1" [(ngModel)]="data.mensaje.titulo">
+  </mat-form-field>. -->
+</div>
+
+<br/>
+
+	<div class="row">
+		<div class="col-md-12 container " style="text-align: center;">
+				<button type="button"  [mat-dialog-close]="data.animal" class="btn btn-primary" tabindex="2">Aceptar</button> 
+				
+		</div>
+	  
+	</div>
+ <!-- <button mat-button (click)="onNoClick()" tabindex="-1">No Thanks</button> -->
+
+
+</div>
+<!-- Copyright 2017 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

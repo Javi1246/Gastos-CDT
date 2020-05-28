@@ -1,0 +1,242 @@
+<div>
+
+    <div class="row" *ngIf="cabecero">
+        <div class="col-md-10">
+            <h1 mat-dialog-title>{{titulo}}</h1>
+        </div>
+        <div class="col-md-2">
+            <button mat-dialog-close tabindex="-1" type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    </div>
+
+
+
+    <div mat-dialog-content>
+
+        <div class="row" *ngIf="!pantalla">
+
+
+            <div *ngIf="validaCentral" class="col-md-12">
+
+
+                <form #formFolioCentral="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12 col-md-12" id="form-producto">
+
+                    <div>
+                        <h2><strong>{{tituloDesc}}</strong></h2>
+                    </div>
+
+
+
+
+                    <div *ngIf="tipoEgreso==3">
+                        <label>
+                                {{leyenda}}                         
+                                <span *ngIf="!cifraControl.valid && cifraControl.touched" class="label label-danger"> La {{leyenda}} solo permirte numeros y letras, sin espacios en blanco</span>                       
+                            </label>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" #cifraControl="ngModel" pattern="^[a-zA-Z0-9]{1,50}" maxlength="12" name="cifraControl" [(ngModel)]="datosEgreso.cifraControl" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="submit" value="{{tituloBoton}}" (click)="validarFolioCentral(3);" [disabled]="!validarComponentes(formFolioCentral.form.valid)" class="btn btn-success" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div *ngIf="tipoEgreso==4">
+                        <label>
+                                   {{leyenda}}
+                                   
+                                   <span *ngIf="!empleado.valid && empleado.touched" class="label label-danger"> {{leyenda}} solo permite el numero maximo 99999999 </span>   
+                        
+                             </label>
+
+                        <div>
+                            <div class="col-md-4">
+                                <input type="text" #empleado="ngModel" maxlength="8" min="1" max="99999999" name="empleado" [(ngModel)]="datosEgreso.empleado" class="form-control" pattern="^[0-9]{1,8}" onKeyUp="if(this.value>9999999999){this.value='9999999999';}else if(this.value<0){this.value='0';}"
+                                    (keypress)="myMethod2($event)" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="submit" value="{{tituloBoton}}" (click)="validarFolioCentral(4);" [disabled]="!validarComponentes(formFolioCentral.form.valid)" class="btn btn-success" />
+                                
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <br/>
+
+
+
+
+
+                </form>
+            </div>
+
+            <div *ngIf="!validaCentral" class="col-md-12">
+                <form #formProducto="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12 col-md-12" id="form-producto">
+
+
+                    <label>
+                        Cuenta
+                        
+                      </label>
+                    <input type="text" #descCuenta="ngModel" name="descCuenta" [(ngModel)]="desc" class="form-control" disabled="true" />
+
+                    <label>
+                        Importe
+                        
+                     <!--   <span *ngIf="!validaImporte(importe.valid) " class="label label-danger">El importe no es correcto</span> -->
+                      </label>
+
+
+                    <input type="text" #importe="ngModel" name="importe" [(ngModel)]="importe2" (change)="cambiarEstatusFactura();" class="form-control" pattern="" placeholder="Agregar un importe" disabled />
+
+
+                    <label>
+                        Número de Empleado
+                        <span *ngIf="!Empleado.valid && Empleado.touched" class="label label-danger">El empleado es obligatoria</span>
+                      </label>
+                    <input type="text" #Empleado="ngModel" name="Empleado" [(ngModel)]="cajaDetalleFolios.CifraEmpleadoDestino" class="form-control" placeholder="Nombre" disabled/>
+
+                    <label>
+                        Nombre de Empleado
+                        <span *ngIf="!NombreEmpleado.valid && NombreEmpleado.touched" class="label label-danger">El Nombre de empleado es obligatoria</span>
+                      </label>
+                    <input type="text" #NombreEmpleado="ngModel" name="NombreEmpleado" [(ngModel)]="cajaDetalleFolios.NombreEmpleado" class="form-control" placeholder="Nombre Empleado" disabled/>
+
+                    <label>
+                        Justificacion
+                        <span *ngIf="!justificacion.valid && justificacion.touched" class="label label-danger">La justificacion es obligatoria</span>
+                      </label>
+                    <input type="text" #justificacion="ngModel" name="justificacion" [(ngModel)]="cajaDetalleFolios.Justificacion" class="form-control" placeholder="Justificación" disabled/>
+
+                    <br/>
+                    <input type="submit" value="{{botonTitulo}}" (click)="MovimientoGastos();" class="btn btn-success" [disabled]="cliked" />
+
+                </form>
+
+            </div>
+
+
+        </div>
+
+        <div *ngIf="pantalla">
+
+            <!--Modal para  mostrar mensaje -->
+            <div class="row text-center" *ngIf="!PantallaImprimir">
+
+                <div class="col-md-12">
+                    <label>
+                            <strong>{{mensaje}} </strong>
+                          </label>
+
+                    <div *ngIf="vermas">
+                        <a *ngIf="!vermasme" (click)="ver(1);">ver más</a>
+                        <br/>
+                        <div *ngIf="vermasme">
+                            <a (click)="ver(0)">ocultar</a>
+                            <label>
+                                        <strong>{{mensaje2}} </strong>
+                                    </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <br/>
+                <br/>
+                <br/>
+                <div class="col-md-12" *ngIf="boton">
+                    <button mat-dialog-close tabindex="-1" type="button" class="btn btn-primary">
+                                <i class="glyphicon glyphicon-ok"> Aceptar </i></button>
+                </div>
+
+                <div class="col-md-12" *ngIf="!boton">
+                    <div *ngIf="!retornar">
+                        <button mat-dialog-close tabindex="-1" type="button" class="btn btn-danger"><i > Rechazar </i></button>
+
+                        <button type="button" class="btn btn-primary" (click)="insertaSolicitudGastos();"><i > Continuar </i></button>
+
+                    </div>
+
+
+                    <div *ngIf="retornar">
+
+
+
+                        <button *ngIf="siniestro" mat-dialog-close tabindex="-1" type="button" class="btn btn-danger"><i > Rechazar </i></button>
+                        <button type="button" class="btn btn-primary" (click)="mostarCarga();"><i > Aceptar </i></button>
+
+                    </div>
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="row text-center" *ngIf="PantallaImprimir">
+
+                <div class="col-md-12" *ngIf="imprimirCorrectamente">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="height:500px;">
+                                <img [src]="'data:image/jpg;base64,'+bse64" width="100%">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 center">
+                            <br/>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-md-12 center">
+                                    <label><strong>¿La impresión salio correcta?</strong></label>
+                                </div>
+                            </div>
+
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-md-6 center">
+                                    <button type="button" class="btn btn-primary" (click)="imprimirEgreso(cuentas);"><i class="glyphicon  glyphicon glyphicon-print"> Reimprimir</i></button>
+                                </div>
+                                <div class="col-md-6 center">
+                                    <button mat-dialog-close tabindex="-1" type="button" class="btn btn-primary"><i class="glyphicon  glyphicon glyphicon glyphicon-ok"> Aceptar</i></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div *ngIf="!imprimirCorrectamente">
+
+                    <mat-spinner></mat-spinner>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+</div>

@@ -1,0 +1,25 @@
+/*
+::ng-deep .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+    opacity: 1 !important;
+}
+
+::ng-deep .cdk-overlay-dark-backdrop {
+    background: #fff !important;
+}
+
+::ng-deep .mat-dialog-container {
+    box-shadow: none !important;
+}
+*/
+
+&.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+    opacity: 1 !important;
+}
+
+&.cdk-overlay-dark-backdrop {
+    background: #fff !important;
+}
+
+&.mat-dialog-container {
+    box-shadow: none !important;
+}

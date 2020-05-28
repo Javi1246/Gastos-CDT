@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Sistema de Gastos</title>
+  <base href="./">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="içcon" type="image/x-icon" href="favicon.ico">
+
+  <!--jQuery-->
+  <script type="text/javascript" src="assets/jquery.min.js"></script>
+
+  <!--Bootstrap-->
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"/>
+  <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>  
+
+  <!--Estilos-->
+   <link rel="stylesheet" href="assets/styles.css"/>  
+
+ <!-- Load common libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typescript/2.1.1/typescript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.8.5/zone.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.38/system.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+
+  <!-- Configure SystemJS -->
+  <script src="systemjs.config.js"></script>
+
+  <script>
+    System
+      .import('main.ts')
+      .catch(console.error.bind(console));
+  </script>
+
+  <!-- Load the Angular Material stylesheet -->
+  <link href="https://unpkg.com/@angular/material/prebuilt-themes/indigo-pink.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ 
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+   <!--JS para la carga de la huella-->
+   
+   <script src="../FrontGastos/assets/Huella/huella.js"></script>
+
+   <script type="text/javascript">
+      
+
+
+      function JSSetUpdate(resp) {
+              var mensajes= new Object();
+              mensajes.esError=false;
+              mensajes.mensaje="";
+                
+                console.log('Entro en el metodo JSSetUpdate');
+
+            try{
+                 
+                    
+                      var objResp = JSON.parse(resp);
+                      var mensaje = objResp.PluginResponse.processDetail;
+                      var codigo = "-1";
+                            if (objResp.Issue.statusControl) {
+                                var det = objResp.Issue.detail;
+                                mensaje = "Error al validar la huella del empleado, favor de contactar a Soporte.";
+                                mensaje += "<br/>Detalle del error:<br/><b>Message:</b> " + det.message + "<br/><b>TypeError:</b> " + det.typeError + "<br/><b>CodeError:</b> " + det.codeError;
+                                mensaje.esError=true;
+                                mensajes.mensaje=mensaje;
+                                   
+
+
+                            } else {
+                                codigo = objResp.PluginResponse.authenticated == 1 ? 0 : -1;
+
+                                     
+
+
+                            }
+
+                 
+
+            }catch(err){
+                console.log('Se presento un error en la respuesta de la huella ');
+
+            }    
+            
+            console.log('Hacer la click al boton ');      
+           // $('#MetodoClick').click
+
+            if (typeof(Storage) !== "undefined") {
+                                                    localStorage.setItem("respuesta", resp);
+                                                  
+                                                    $('#respHuella').click();
+                                              } else {
+                                                console.log('No soporta local storage')
+                                                 $('#respHuella').click();
+                                              }
+         
+          
+  
+        return mensaje;
+   
+}
+
+   </script>
+   
+
+ 
+
+
+<style type="text/css">
+     .contenedor2 {
+          width: 25%;
+          height: 150px;
+      }
+</style>
+
+  
+
+</head>
+<body>
+  <app-root>Loading...</app-root>
+<script type="text/javascript" src="inline.bundle.js"></script><script type="text/javascript" src="polyfills.bundle.js"></script><script type="text/javascript" src="styles.bundle.js"></script><script type="text/javascript" src="scripts.bundle.js"></script><script type="text/javascript" src="vendor.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script></body>
+</html>

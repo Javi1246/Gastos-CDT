@@ -1,0 +1,97 @@
+<h3>{{titulo}}</h3>
+<hr/>
+
+<div *ngIf="productos">
+	Cargando listado de productos...
+</div>
+<div *ngIf="!productos">
+	<!--<div class="row">
+
+		<div class="col-md-4 center">
+				<label>Fecha de Inicio</label>
+				<datepicker-min-max-example>Cargando Fecha Inicio...</datepicker-min-max-example>	
+		</div>
+		<div class="col-md-4 center">
+				<label>Fecha de Fin</label>
+				<fechafin>Cargando Fecha Fin ...</fechafin>
+		</div>
+
+		
+	</div>
+	<div class="row">
+
+			<div class="col-md-10 center">
+				<radio-ng-model [valor]="2">Cargando Fecha Fin ...</radio-ng-model> 
+			</div>
+			<div class="col-md-2 center">
+				<button type="button" class="btn btn-primary" (click)="getCuentasGastos()"><i class="glyphicon glyphicon-search"> Buscar</i></button>
+			</div>
+		
+		
+	</div>
+
+ -->
+
+	<div class="row" style="height: 400px;overflow: scroll;">
+
+		<div class="col-md-12">
+
+
+				<table class="table table-hover" style="width: 1200px;">
+				<thead>
+					<tr>
+						<th></th>
+					<th>No de Cuenta</th>
+					<th>Descripción</th>
+					<th>Presupuesto     </th>
+					<th>Afectado        </th>
+					<th>Bloqueado       </th>
+					<th>Ampliado        </th>
+					<th>Compensado      </th>
+					<th style="width:150px;">Disponible<span style="color:white;text-align: center;">Disponible</span></th>
+					<th>Solicitado      </th>
+					
+
+					
+				</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let cuentas of cuentasSolicitud"> 
+						<td>
+							<!--<button type="button" class="btn btn-primary"><i class="glyphicon  glyphicon-list-alt"></i></button>-->
+							<div *ngIf="cuentas.Cuenta!=606080 && cuentas.Cuenta!=620156 && cuentas.Cuenta!=620157">
+									<dialog-solicitudes [valor]="cuentas"> cargando </dialog-solicitudes>  
+					 		</div>
+					 		<div *ngIf="cuentas.Cuenta==606080 || cuentas.Cuenta==620156 || cuentas.Cuenta==620157">
+					 		   	<dialog-fletes [valor]="cuentas">cargando</dialog-fletes>  
+					 		</div>
+					 		   <!--<dialog-data-example [valor]="cuentas">cargando</dialog-data-example> -->
+						</td>
+						<td>{{cuentas.Cuenta}}</td>
+						<td>{{cuentas.Descripcion}}</td>
+						<td style="width:110px;">{{datosGenerales.SignoMoneda}}{{cuentas.Presupuesto | number:'.2-2'}}</td>
+						<td style="width:110px;">{{datosGenerales.SignoMoneda}}{{cuentas.Afectado | number:'.2-2'}}</td>
+						<td style="width:110px;">{{datosGenerales.SignoMoneda}}{{cuentas.Bloqueado | number:'.2-2'}}</td>
+						<td style="width:110px;">{{datosGenerales.SignoMoneda}}{{cuentas.Ampliado | number:'.2-2'}}</td>
+						<td style="width:110px;">{{datosGenerales.SignoMoneda}}{{cuentas.Compensado | number:'.2-2'}}</td>
+						<td style="width:150px;">{{datosGenerales.SignoMoneda}}{{cuentas.Disponible | number:'.2-2'}}</td>
+						<td style="width:110px;">{{datosGenerales.SignoMoneda}}{{cuentas.Solicitado | number:'.2-2'}}</td>
+
+						
+
+
+					</tr>
+					
+
+
+				</tbody>
+			</table>	
+		</div>
+			
+			
+			
+
+			
+
+	</div>
+</div>

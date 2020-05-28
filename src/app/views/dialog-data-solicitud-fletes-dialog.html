@@ -1,0 +1,328 @@
+
+<div class="row"  *ngIf="cabecero">
+   <div class="col-md-10">
+        <h1 mat-dialog-title>{{titulo}}</h1>
+   </div>
+   <div class="col-md-2">
+          <button  mat-dialog-close tabindex="-1" type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+          </button>
+   </div>
+</div>
+
+
+
+
+<div mat-dialog-content >
+
+ <div class="row" *ngIf="!pantalla">
+      
+          
+          <div class="col-md-12" *ngIf="folioRef">
+                   <form #formFolio="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12 col-md-12" id="form-folio">
+
+                      <div class="row">
+                            <div class="col-md-8">
+                                  <label>
+                                      Folio Referencia         
+                                      
+
+                                        <span *ngIf="!folioReferencia1.valid && folioReferencia1.touched" class="label label-danger">El Folio de Referencia solo permite numeros </span>
+
+                                  </label>
+                                  <input type="text" #folioReferencia1="ngModel" maxlength="15" name="folioReferencia1" [(ngModel)]="folioReferencia" class="form-control"  pattern="[0-9]+"   placeholder="Agregar un folio de referencia" (keypress)="myMethod2($event)" required />
+                            </div>
+                            <div class="col-md-4" > 
+                               <br/>
+                                 <input type="submit" value="Validar" (click)="validarFolioReferencia();" [disabled]="!formFolio.form.valid" class="btn btn-success" />
+                             </div>  
+                      </div>
+                      
+                      
+                    </form>
+          </div>
+
+          <div class="col-md-12" *ngIf="!folioRef">
+
+            <div *ngIf="!Busca">
+                  <form #formProducto="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12 col-md-12" id="form-producto">
+
+                        <label>
+                          Cuenta
+                        
+                        </label>
+                        <input type="text" #descCuenta="ngModel" name="descCuenta" [(ngModel)]="fletero.descCuenta" class="form-control"   disabled="true" />
+
+                        <label>
+                          Importe
+                         <span *ngIf="!importe.valid && importe.touched" class="label label-danger">No se permiten caracteres y espacios en blanco</span> 
+                        </label>
+                        
+                              
+                              <input type="text" #importe="ngModel" maxlength="8" pattern="(^[0-9]{1,5}|^[0-9]{1,5}.[0-9]{0,2})" name="importe" [(ngModel)]="fletero.importe" class="form-control"    placeholder="Agregar un importe" [disabled]="validImporte" (keypress)="myMethod($event)"  />
+                        
+                       
+                          <label>
+                              Comprobante Fiscal  <strong *ngIf="data.carga.Cuenta==606080">{{'Refenrencia del Flete: '+ fletero.referencia}}</strong>
+                          
+                        </label>
+                        <div class="row">
+                          <div class="col-md-8"> 
+                                   <input type="text" #comprobanteFiscal="ngModel" name="comprobanteFiscal" [(ngModel)]="fletero.comprobanteFiscal" class="form-control"   disabled="true" />
+                          </div>
+                          <div class="col-md-4">
+                                <input type="submit" value="Buscar" (click)="buscarDatosFiscales();"  class="btn btn-success" />
+
+                          </div>
+                          
+                        </div>
+                       
+
+                         <label>
+                          Nombre del Fletero
+                         
+                        </label>
+                        <input type="text" #nombreFletero="ngModel" name="nombreFletero" [(ngModel)]="fletero.nombreFletero" class="form-control"   disabled="true" />   
+                       
+
+                        <label>
+                          Justificacion
+                           <span *ngIf="!justificacion.valid && justificacion.touched" class="label label-danger">No se permiten caracteres especiales</span> 
+                        </label>
+                        <input type="text" #justificacion="ngModel" name="justificacion" maxlength="50" pattern="^[A-Z0-9 a-zñÑ,/áÁÉéíÍóÓÚú]*$" [(ngModel)]="fletero.justificacion" class="form-control" placeholder="Justificación" required="requiredValidacionJust" [disabled]="validJustificion"/>
+
+                       
+
+                        <br/>
+
+
+                       
+                     
+
+                        <input type="submit" value="{{titulo}}" (click)="validarSolicitudGastos();" [disabled]="!validarComponentes(formProducto.form.valid)" class="btn btn-success" />
+
+                         
+                  </form>
+             </div>  
+
+
+            <!--Metodo para realizar la busqueda de comprobantes fiscales-->
+            <div *ngIf="Busca">
+                      
+                          
+                          <div *ngIf="!crear"> 
+
+                                      <div class="col-md-12" >
+                                              <form #formBusqueda="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12 col-md-12" id="form-folio">
+
+                                                      <div class="row">
+                                                            <div class="col-md-8">
+                                                              <label>
+                                                                  Buscar                        
+                                                              </label>
+
+                                                             <input type="text" #Busqueda="ngModel" style="text-transform:uppercase;" name="folio" [(ngModel)]="busq" class="form-control"  required  placeholder="Agregar un folio referencia" />                                                    
+                                                             </div>
+                                                        <div class="col-md-4"> 
+                                                              <br/>
+                                                            <input type="submit" (click)="LlenarFletero();" value="Crear Nuevo "   class="btn btn-success" />
+                                                        </div>  
+                                                         </div>
+                                                </form>
+                                      </div>
+                                               
+                                      
+
+                                      <div class="col-md-12" >
+
+
+                                            <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                    <th>Nombre</th>
+                                                    <th>RFC</th>
+                                                    <th>Calle</th>
+                                                    <th></th>
+                                             </tr>
+                                        </thead>
+                                        <tbody>
+                                              <tr *ngFor="let cuentas of detFletes |  myfilter: busq">
+            
+                                                    <td>{{cuentas.fcNombre | uppercase}}</td>
+                                                    <td>{{cuentas.fcRFC | uppercase}}</td>
+                                                    <td>{{cuentas.fcCalle | uppercase}}</td>
+                                                    
+
+                                                    <td>
+                                                          <input type="submit" (click)="ObtenerFleteroBusqueda(cuentas)" value="Agregar"   class="btn btn-success" />
+
+                                                            <!--<dialog-data-example [valor]="cuentas">cargando</dialog-data-example> -->
+                                                    </td>
+
+
+                                              </tr>       
+
+                                        </tbody>
+                                            </table>  
+                                      </div>
+                           </div>
+
+                           <div *ngIf="crear" >
+                                 <form #formFletero="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12 col-md-12" id="form-producto">
+                                       <div class="row">
+                                                <div class="col-md-2">
+                                                    <input type="submit" value="Agregar" (click)="mostarCarga();" [disabled]="!formFletero.form.valid" class="btn btn-success" />
+                                                </div>
+                                                <div class="col-md-2 left" >
+                                                    <input type="submit" value="Regresar" (click)="regresar();"  class="btn btn-info" />
+                                                </div>
+                                            </div>
+
+                                            <label>
+                                                  Nombre Completo                      
+                                                  <span *ngIf="!NombreCompleto.valid && NombreCompleto.touched" class="label label-danger">El nombre completo es obligatorio</span>
+                                            </label>
+                                            <input type="text" #NombreCompleto="ngModel" name="NombreCompleto" [(ngModel)]="nuevoFletero.fcNombre" placeholder="Nombre completo" class="form-control" maxlength="50"  required (keypress)="myMethod3($event)"/>
+
+                                            <label>
+                                                  RFC
+                                                  <span *ngIf="!RFC.valid && RFC.touched" class="label label-danger">El RFC es obligatorio</span>
+                                            </label>
+
+                                            <input type="text" #RFC="ngModel" name="RFC" [(ngModel)]="nuevoFletero.fcRFC" class="form-control"  pattern="" maxlength="15" placeholder="RFC" required (keypress)="myMethod4($event)" />
+                        
+                       
+                                            <label>
+                                                  INE
+                                                  <span *ngIf="!IFE.valid && IFE.touched" class="label label-danger">El IFE es obligatorio</span>
+                                            </label>
+                                            <input type="text" #IFE="ngModel" name="IFE" [(ngModel)]="nuevoFletero.fcIFE" class="form-control"  pattern="" maxlength="15"   placeholder="INE" required (keypress)="myMethod($event)" />
+                                            
+                       
+
+                                            <label>
+                                              Calle 
+                                              <span *ngIf="!calle.valid && calle.touched" class="label label-danger">El calle es obligatorio</span>                                             
+                                            </label>
+                                            <input type="text" #calle="ngModel" name="calle" [(ngModel)]="nuevoFletero.fcCalle" class="form-control" maxlength="30"  required (keypress)="myMethod3($event)" />   
+
+
+                                            <div class="row">
+                                                  <div class="col-md-6">
+                                                            <label>No. Ext.  <span *ngIf="!noEXT.valid && noEXT.touched" class="label label-danger">El No. Ext. es obligatorio</span></label>
+                                                            <input type="text" #noEXT="ngModel" name="noEXT" [(ngModel)]="nuevoFletero.fcNoExt" class="form-control" placeholder="No EXt." maxlength="5" (keypress)="myMethod4($event)"   required/>  
+                                                  </div>
+                                                  <div class="col-md-6">
+                                                            <label>No. Int. <span *ngIf="!noInt.valid && noInt.touched" class="label label-danger">El No. Int. es obligatorio</span></label>
+                                                            <input type="text" #noInt="ngModel" name="noInt" [(ngModel)]="nuevoFletero.fcNoInt" class="form-control" placeholder="No Int." maxlength="5" (keypress)="myMethod4($event)" required/>  
+                                                  </div>
+                                            </div> 
+                                            <label>
+                                              Colonia 
+                                              <span *ngIf="!colonia.valid && colonia.touched" class="label label-danger">La colonia es obligatorio</span>                                             
+                                            </label>
+                                            <input type="text" #colonia="ngModel" name="colonia" [(ngModel)]="nuevoFletero.fcColonia" class="form-control" placeholder="Colonia" (keypress)="myMethod3($event)" maxlength="30" required />
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                       <label>
+                                                              CP                                                  
+                                                              <span *ngIf="!CP.valid && CP.touched" class="label label-danger">Código Postal es obligatorio</span>
+                                                       </label>
+                                                        <input type="text" #CP="ngModel" name="CP" maxlength="6" [(ngModel)]="nuevoFletero.fcCP" class="form-control" placeholder="Código Postal" (keypress)="myMethod($event)" pattern="[0-9]+" required />       
+                                                </div>
+                                                <div class="col-md-6">
+                                                        <label>
+                                                              Poblacion                                                  
+                                                              <span *ngIf="!Poblacion.valid && Poblacion.touched" class="label label-danger">Poblacion es obligatorio</span>
+                                                        </label>
+                                                        <input type="text" #Poblacion="ngModel" name="Población" [(ngModel)]="nuevoFletero.fcPoblacion" class="form-control" placeholder="Poblacion " (keypress)="myMethod3($event)" required maxlength="30" />
+                                                </div>
+                                            </div>        
+                                           
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                      <label>
+                                                        Telefono                                                  
+                                                          <span *ngIf="!tele.valid && tele.touched" class="label label-danger">Numero de Telefono es obligatorio</span>
+                                                        </label>
+                                                        <input type="text" #tele="ngModel" name="tele" maxlength="10" [(ngModel)]="nuevoFletero.fcTelefono" class="form-control" placeholder="Número de Telefono " (keypress)="myMethod($event)" required /> 
+                                                </div>
+                                                <div class="col-md-6">
+                                                        <label>
+                                                             Estado  <!-- {{selectedEstado}} -->                                              
+                                                              <!-- <span *ngIf="!Poblacion.valid && Poblacion.touched" class="label label-danger">Poblacion es obligatorio</span> -->
+                                                        </label>
+                                                        <select #selectElem class="form-control" (change)="setNewEstado(selectElem.value)">
+
+                                                              <option *ngFor="let estado of listEstado" [ngValue]="estado">{{estado.nombreEstado}}</option>
+                                                        </select>
+                                                        
+                                                </div>
+                                            </div>     
+                                           
+                                            
+                                            
+
+
+                                            <br/>                     
+
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <input type="submit" value="Agregar" (click)="mostarCarga();" [disabled]="!formFletero.form.valid" class="btn btn-success" />
+                                                </div>
+                                                <div class="col-md-2 left" >
+                                                    <input type="submit" value="Regresar" (click)="regresar();"  class="btn btn-info" />
+                                                </div>
+                                            </div>
+                                            
+                                </form>
+                           </div>
+            
+            </div>
+          </div>
+ </div>
+
+
+ <div class="row " *ngIf="pantalla">          
+
+
+          <!--Modal para  mostrar mensaje -->
+          <div class="row text-center" *ngIf="!PantallaImprimir"> 
+                 <div class="col-md-12">
+                    <label><strong>{{mensaje}} </strong></label>
+                 </div>
+          
+
+                 <div class="col-md-12" *ngIf="boton">
+                     <button   mat-dialog-close tabindex="-1" type="button" class="btn btn-primary" ><i class="glyphicon  glyphicon glyphicon glyphicon-ok"> Aceptar </i></button> 
+                 </div>
+
+                
+                <div class="col-md-12" *ngIf="!boton">
+                <br/>  
+
+
+                      <button   mat-dialog-close tabindex="-1" type="button" class="btn btn-danger" ><i class="glyphicon glyphicon-remove"> Cancelar  </i></button> 
+                      <label>     </label>
+
+                      <button  type="button" class="btn btn-primary" (click)="insertaSolicitudGastos();"><i class="glyphicon  glyphicon glyphicon glyphicon-ok"> Continuar </i></button> 
+               </div>
+          </div> 
+
+          <div class="row text-center" *ngIf="PantallaImprimir"> 
+                     <div *ngIf="!imprimirCorrectamente">                         
+                                <mat-spinner></mat-spinner>                                                       
+                      </div>
+           </div>
+          
+  </div>
+
+</div>
+
+
+
+
+
+

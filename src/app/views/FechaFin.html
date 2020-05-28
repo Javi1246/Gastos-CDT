@@ -1,0 +1,6 @@
+<mat-form-field class="example-full-width">
+  <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="pickerFin" [(ngModel)]="fechaInicio" (ngModelChange)="obtieneValor()"  placeholder="Fecha de Fin" disabled>
+  <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+  <mat-datepicker #pickerFin disabled="false"></mat-datepicker>
+</mat-form-field>
+
